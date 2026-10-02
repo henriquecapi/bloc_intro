@@ -58,3 +58,52 @@ Você **nunca** deve incluir a pasta `.dart_tool` no seu repositório (no GitHub
 ---
 
 **A lição para levar para a vida:** Sempre que for criar um projeto novo no Flutter, não crie as pastas na mão. Use o comando `flutter create nome_do_projeto`. O Flutter mesmo vai montar toda essa estrutura (a pasta `lib/`, o `pubspec.yaml`, ignorar as pastas temporárias como a `.dart_tool`) do jeito perfeito para você só se preocupar em programar! 🚀
+
+---
+
+## 🌐 Adicionando suporte à Web (ou outras plataformas)
+
+O Flutter é multiplataforma. No entanto, por padrão, ele pode não criar os arquivos necessários para rodar em todas as plataformas (como no navegador Web, Windows ou macOS) se você apenas criar a estrutura básica à mão. 
+
+Caso você receba o seguinte erro ao tentar compilar para a web:
+> *"This project is not configured for the web."*
+
+Isso significa que falta a pasta nativa `web/` com o arquivo `index.html` e demais configurações que o navegador precisa.
+
+**A Solução:**
+Em vez de criar arquivos à mão, basta pedir para o Flutter "reconstruir" e "configurar" as plataformas desejadas rodando o seguinte comando na raiz do projeto:
+
+```bash
+flutter create . --platforms web
+```
+
+- O ponto `.` diz ao Flutter: *"Faça isso na pasta em que eu já estou"*.
+- O argumento `--platforms web` diz: *"Eu quero que você crie tudo que falta para que esse app rode na Web"*.
+
+Isso vai gerar a pasta `web/` contendo arquivos HTML e de configuração de ícones, sem apagar ou modificar o código que você já escreveu dentro da sua pasta `lib/`!
+
+---
+
+## 💻 Comandos Essenciais do Flutter
+
+No seu dia a dia como desenvolvedor Flutter, você vai usar o terminal com frequência. Aqui estão os 5 comandos mais importantes e o que eles fazem:
+
+### 1. `flutter doctor`
+**O que faz:** É o "médico" do seu ambiente de desenvolvimento. Ele faz um check-up completo no seu computador para ver se tudo o que o Flutter precisa para funcionar está instalado e configurado corretamente (como o Android Studio, o Chrome, o Visual Studio, etc).
+**Quando usar:** Sempre que instalar o Flutter pela primeira vez, quando trocar de computador ou quando coisas muito estranhas começarem a dar errado na compilação. Se o médico disser que algo está faltando (indicado por um `[X]`), siga as instruções na tela para consertar.
+
+### 2. `flutter pub get`
+**O que faz:** Lê o seu arquivo `pubspec.yaml`, verifica todas as dependências (pacotes) listadas lá e faz o download delas da internet (do site pub.dev) para dentro da sua pasta oculta `.dart_tool`.
+**Quando usar:** Sempre que você baixar o projeto de um colega (ou do GitHub) pela primeira vez, ou logo após você digitar um novo pacote no seu arquivo `pubspec.yaml`. Sem rodar esse comando, o compilador não vai achar o pacote que você pediu!
+
+### 3. `flutter analyze`
+**O que faz:** É o "corretor ortográfico e gramatical" do seu código. Ele vasculha todos os seus arquivos `.dart` atrás de erros de sintaxe, variáveis que você declarou mas nunca usou, e práticas ruins de programação, retornando uma lista de problemas.
+**Quando usar:** O tempo todo! De preferência, sempre antes de enviar o seu código para o repositório (Git) ou antes de pedir para construir o aplicativo final. Um bom programador sempre deixa o código limpo e com a mensagem de `No issues found!`.
+
+### 4. `flutter build web`
+**O que faz:** Pega todo o seu código escrito em Dart e o traduz (compila) para HTML, CSS e JavaScript altamente otimizados (ou WebAssembly), criando os arquivos finais prontos para serem hospedados em um site. Ele coloca o resultado final dentro da pasta `build/web/`.
+**Quando usar:** Quando o seu aplicativo estiver finalizado e testado, e você quiser gerar a versão "de produção" (oficial e rápida) para subir num servidor web como Vercel, Firebase Hosting ou GitHub Pages.
+
+### 5. `flutter run -d chrome`
+**O que faz:** Compila o seu aplicativo no modo de "desenvolvimento" e o abre imediatamente em uma nova janela do Google Chrome. O `-d` significa *device* (dispositivo), e você está pedindo explicitamente para rodar no Chrome. A mágica desse comando é que ele mantém uma conexão ativa com o navegador, permitindo o famoso **Hot Reload** (quando você salva o código e a tela atualiza na hora).
+**Quando usar:** Quando você for sentar para programar e quiser ver o resultado do seu aplicativo web na tela enquanto faz alterações no código em tempo real.
